@@ -14,9 +14,11 @@ jobs:
           repository: telegramdesktop/tproxy-server
           path: tproxy-server
 
-      - name: Clone Telegram Android (shallow)
+      - name: Clone Telegram Android (with auth)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git clone --depth 1 --branch master https://github.com/telegramdesktop/Telegram-Android.git Telegram-Android
+          git clone --depth 1 https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/telegramdesktop/Telegram-Android.git Telegram-Android
 
       - name: Apply tproxy patches
         run: |
