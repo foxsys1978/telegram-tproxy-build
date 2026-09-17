@@ -6,7 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout tproxy patches
         uses: actions/checkout@v4
@@ -14,11 +13,13 @@ jobs:
           repository: telegramdesktop/tproxy-server
           path: tproxy-server
 
-      - name: Clone Telegram Android (with auth)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git clone --depth 1 https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/telegramdesktop/Telegram-Android.git Telegram-Android
+      - name: Checkout Telegram Android
+        uses: actions/checkout@v4
+        with:
+          repository: telegramdesktop/Telegram-Android
+          path: Telegram-Android
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
 
       - name: Apply tproxy patches
         run: |
